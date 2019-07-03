@@ -44,7 +44,63 @@ Ext.define('NewExtApp.view.main.ProductViewModel', {
         	    },
         	    
         	}
+        },
+        orderListStore: {
+        	alias: 'store.orderListStore',
+            
+            model : 'NewExtApp.model.Order',
+            
+            storeId : 'orderListStore',
+            
+            autoLoad: true,
+            
+            autoSync : true,
+            
+            proxy : {
+        	    type : 'rest',
+        	    url : 'http://localhost:8080/cart', 
+        	    headers: {'Access-Control-Allow-Origin': '*' },
+        	    headers: {'Access-Control-Allow-Headers': 'Content-Type' },
+        	    noCache: false,
+                limitParam: undefined,
+                pageParam: undefined,
+                startParam: undefined,
+        	    reader: {
+        	       type : 'json',
+        	       rootProperty:null
+        	    },
+        	    writer: {
+                    type: 'json',
+                    writeAllFields : true,
+                    rootProperty:null
+        	    },
+        	    actionMethods: {
+        	        create: 'POST',
+        	        read: 'GET',
+        	        update: 'PUT',
+        	        destroy: 'DELETE'
+        	    },
+        	    
+        	},
+			listeners: {
+				beforeLoad : function (store, records, success, options) {
+					var customerparamstore = Ext.getStore('customerparamstores');
+					var record = customerparamstore.findRecord('loginStatus', true);
+					var cartId = record.get('cartId');
+					store.getProxy().setUrl('http://localhost:8080/cart/'+cartId+'/orders');
+					console.log('loading..')
+				},
+		    	load : function (store, records, success, options) {
+		    		var CartPrice=0;
+		    		store.each(function(record,idx){
+				    	CartPrice+=record.get('orderPrice'); 
+				    });
+				    Ext.getCmp('cartPrice').setText(CartPrice);
+				    console.log('loaded.')
+				}
+			}
         }
+	
     }
 });
 /*

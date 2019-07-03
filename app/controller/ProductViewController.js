@@ -67,8 +67,9 @@ Ext.define('NewExtApp.controller.ProductViewController', {
 	    	var productGrid = this.getView();
         	var selected = productGrid.getSelectionModel().getSelection()[0];
         	var orderstore = Ext.getStore('orderListStore');
+        	orderstore.load();
         	var orderRecord = orderstore.findRecord('productId',selected.data.productId);
-        	if(orderRecord)
+        	if(orderRecord )
         		Ext.Msg.alert('Product Is Already Present In Cart');
         	else
         		{
