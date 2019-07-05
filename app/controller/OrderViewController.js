@@ -2,7 +2,6 @@ Ext.define('NewExtApp.controller.OrderViewController', {
     extend: 'Ext.app.ViewController',
     
     alias: 'controller.orderController',
-    
 			
 	    onSelectionChange: function (sender, record, isSelected) {
 	        var removeBtn = this.lookupReference('btnRemoveProduct');
@@ -29,12 +28,14 @@ Ext.define('NewExtApp.controller.OrderViewController', {
 	    onLoadClick: function (sender, record) {
 	        var orderStore = this.getView().getStore();
 	        orderStore.load();
-	        this.calculateTotalPrice();
+	        
 	    },
 	    
 	    onLogoutClick: function (sender, record) {
-	    	var customerparamstore = Ext.getStore('customerparamstores');
-	    	customerparamstore.removeAll();
+	    	localStorage.removeItem("cartId");
+        	localStorage.removeItem("customerId");
+        	localStorage.removeItem("loginStatus");
+        	localStorage.removeItem("userName");
             Ext.getCmp('loginForm').show();
             Ext.getCmp('loginForm').enable();
             Ext.getCmp('registrationForm').enable();
@@ -53,17 +54,106 @@ Ext.define('NewExtApp.controller.OrderViewController', {
 	    	var productPrice = selected.data.productPrice;
 	    	var orderQty = selected.data.orderQty
 	    	selected.set('orderPrice', productPrice*orderQty);
-	    	this.calculateTotalPrice();
+	    	
 	    },
 	    
-	    calculateTotalPrice : function(sender,record)
+	    
+	    onApplyCouponClick :function(sender,record)
 	    {
-	    	var orderGrid = this.getView();
-		    var orderStore = orderGrid.getStore();
-		    var CartPrice=0;
-		    orderStore.each(function(record,idx){
-		    	CartPrice+=record.get('orderPrice'); 
-		    });
-		    Ext.getCmp('cartPrice').setText(CartPrice);
+	    		Ext.Msg.prompt('Coupon', 'Please Enter Coupon Code:', function(btn, text) {
+                if (btn == 'ok') {
+                	
+                	var couponStore = Ext.getStore('couponListStore');
+                	console.log(couponStore);
+                	console.log(couponStore.getData());
+                	var couponRecord = couponStore.findRecord('couponCode', text);
+                	
+                	if(couponRecord)
+                	{
+	                	var cartId = localStorage.getItem('cartId');
+	                	var applyCouponStore = Ext.create('Ext.data.Store', {
+	                		fields :[
+	                			{name:'success',type:'auto'},
+	                			{name:'message',type:'string'}
+	                		],
+	                	    proxy: {
+	                	        type: 'rest',
+	                	        url : 'http://localhost:8080/cart/'+cartId+'/coupon/apply/'+text,
+	                	        headers: {'Access-Control-Allow-Origin': '*' },
+	                		    headers: {'Access-Control-Allow-Headers': 'Content-Type' },
+	                		    noCache: false,
+	                	        limitParam: undefined,
+	                	        pageParam: undefined,
+	                	        startParam: undefined,
+	                	        
+	                	        reader: {
+	                	            type: 'json',
+	                	            root: 'root',
+	                	            rootProperty:null
+	                	        },
+	                	        actionMethods: {
+	                	        	read: 'GET',
+	                	        }
+	                	    },
+	                	});
+	                	applyCouponStore.load({
+	                		callback: function(records, operation, success) {
+	                			 var reader = this.getProxy().getReader();
+	                			 response = operation.getResponse();
+	                			Ext.Msg.alert(reader.getResponseData(response).message);
+	                	    }
+	                	})
+                	}
+                	else
+                	{
+                		Ext.Msg.alert("Invalid Coupon!");
+            		}
+                }
+             });
+	    	
+	    },
+	    
+	    onRemoveCouponClick:function(sender,record)
+	    {
+	    		Ext.Msg.prompt('Coupon', 'Please Enter Coupon Code:', function(btn, text) {
+	    			var couponStore = Ext.getStore('couponListStore');
+                	var couponRecord = couponStore.findRecord('couponCode', text);
+                	if(couponRecord)
+            		{
+	                	var cartId = localStorage.getItem('cartId');
+                		var removeCouponStore = Ext.create('Ext.data.Store', {
+	            	    proxy: {
+	            	        type: 'rest',
+	            	        url : 'http://localhost:8080/cart/'+cartId+'/coupon/unapply/'+text,
+	            	        headers: {'Access-Control-Allow-Origin': '*' },
+	            		    headers: {'Access-Control-Allow-Headers': 'Content-Type' },
+	            		    noCache: false,
+	            	        limitParam: undefined,
+	            	        pageParam: undefined,
+	            	        startParam: undefined,
+	            	        
+	            	        reader: {
+	            	            type: 'json',
+	            	            root: 'root',
+	            	            rootProperty:null
+	            	        },
+	            	        actionMethods: {
+	            	        	destroy: 'GET'
+	            	        }
+	            	    },
+                		});
+                		removeCouponStore.load({
+	                		callback: function(records, operation, success) {
+	                			 var reader = this.getProxy().getReader();
+	                			 response = operation.getResponse();
+	                			Ext.Msg.alert(reader.getResponseData(response).message);
+	                	    }
+	                	})
+            		}
+                	else
+                	{
+                		Ext.Msg.alert("Invalid Coupon!");
+            		}
+	    		});
 	    }
 });

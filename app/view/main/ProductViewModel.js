@@ -84,23 +84,16 @@ Ext.define('NewExtApp.view.main.ProductViewModel', {
         	},
 			listeners: {
 				beforeLoad : function (store, records, success, options) {
-					var customerparamstore = Ext.getStore('customerparamstores');
-					var record = customerparamstore.findRecord('loginStatus', true);
-					var cartId = record.get('cartId');
+					var cartId = localStorage.getItem('cartId');
 					store.getProxy().setUrl('http://localhost:8080/cart/'+cartId+'/orders');
 					console.log('loading..')
 				},
 		    	load : function (store, records, success, options) {
-		    		var CartPrice=0;
-		    		store.each(function(record,idx){
-				    	CartPrice+=record.get('orderPrice'); 
-				    });
-				    Ext.getCmp('cartPrice').setText(CartPrice);
+		    		
 				    console.log('loaded.')
 				}
 			}
         }
-	
     }
 });
 /*

@@ -21,6 +21,29 @@ Ext.define('NewExtApp.Application', {
 
     launch: function () {
         // TODO - Launch the application
+    	
+    	var loginrecord = localStorage.getItem('loginStatus');
+    	console.log(loginrecord);
+    	if(loginrecord)
+		{
+	    	Ext.getCmp('loginForm').hide();
+	        Ext.getCmp('loginForm').disable();
+	        Ext.getCmp('registrationForm').hide();
+	        Ext.getCmp('registrationForm').disable();
+	        Ext.getCmp('productList').show();
+	        Ext.getCmp('productList').enable();
+	        Ext.getCmp('cart').enable();
+		}
+    	else
+		{
+    		Ext.getCmp('loginForm').show();
+            Ext.getCmp('loginForm').enable();
+            Ext.getCmp('registrationForm').enable();
+            Ext.getCmp('productList').hide();
+            Ext.getCmp('productList').disable();
+            Ext.getCmp('cart').disable();
+            Ext.getCmp('cart').hide();
+		}
     },
 
     onAppUpdate: function () {

@@ -9,6 +9,8 @@ Ext.define('NewExtApp.model.Order', {
         { name: 'orderQty', type: 'auto' },
         { name: 'orderPrice', type: 'auto' },
         { name: 'cartId', type: 'auto' },
+        { name: 'cartPrice', type: 'auto' },
+        { name: 'cartDiscount', type: 'auto' },
     ],
     idProperty: 'orderId'
 });

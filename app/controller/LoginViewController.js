@@ -22,21 +22,11 @@ Ext.define('NewExtApp.controller.LoginViewController', {
                 },
                 success: function(form, action) {
                 	resp = Ext.decode(action.response.responseText);
-                	customerParam = Ext.create('NewExtApp.model.CustomerParam');
-                	customerParam.set("cartId",resp.cartId);
-                	customerParam.set("customerId",resp.customerId);
-                	customerParam.set("loginStatus",resp.loginStatus);
-                	customerParam.set("userName",resp.userName);
-                	var customerparamstore = Ext.getStore('customerparamstores');
-                	customerparamstore.load();
-                	customerparamstore.insert(0,customerParam)      
-                	var record = customerparamstore.findRecord('loginStatus', true);
-                	customerparamstore.sync();
-                	
-                	
-                	
-                    Ext.Msg.alert('Login successfull!');
-                    
+                	localStorage.setItem("cartId",resp.cartId);
+                	localStorage.setItem("customerId",resp.customerId);
+                	localStorage.setItem("loginStatus",resp.loginStatus);
+                	localStorage.setItem("userName",resp.userName);
+                    Ext.Msg.alert('Login successfull!');                    
                     Ext.getCmp('loginForm').hide();
                     Ext.getCmp('loginForm').disable();
                     Ext.getCmp('registrationForm').hide();

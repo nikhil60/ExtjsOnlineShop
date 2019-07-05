@@ -10,6 +10,11 @@ Ext.define('NewExtApp.view.main.OrdertForm', {
     viewModel: { type: 'orderviewmodel' },
     
     controller : 'orderController',
+    
+    stores: [
+        // TODO: add global / shared stores here
+    	'mycouponStore'
+    ],
 
     title: 'Order List',
     
@@ -33,6 +38,8 @@ Ext.define('NewExtApp.view.main.OrdertForm', {
         store: '{orderListStore}'
     },
     
+    layout: 'hbox',
+    
     plugins: [Ext.create('Ext.grid.plugin.RowEditing',
             {
                 clicksToEdit: 2
@@ -55,11 +62,25 @@ Ext.define('NewExtApp.view.main.OrdertForm', {
     tbar: [
     {
         itemId: 'removeProduct',
-        text: 'Remove Product',
+        text: 'Remove from Cart',
         iconCls: 'fa-times',
         reference: 'btnRemoveProduct',
         handler: 'onRemoveClick',
         disabled: true
+    },
+    {
+        itemId: 'applyCoupon',
+        text: 'Apply coupon',
+        iconCls: 'fa-times',
+        reference: 'btnApplyCoupon',
+        handler: 'onApplyCouponClick'
+    },    
+    {
+        itemId: 'removeCoupon',
+        text: 'Remove coupon',
+        iconCls: 'fa-times',
+        reference: 'btnRemoveCoupon',
+        handler: 'onRemoveCouponClick'
     },
     {
         text: 'Refresh',
@@ -73,18 +94,123 @@ Ext.define('NewExtApp.view.main.OrdertForm', {
         reference: 'btnLogout',
         handler: 'onLogoutClick',
     }],
-    bbar: {
+    dockedItems: [
+    	{
+            xtype: 'toolbar',
+            dock: 'bottom',
+            layout: 'hbox',
+            items: [
+                {
+                    xtype : 'toolbar',
+                    itemId: 'bottomToolbar1',
+                    flex:2,
+                    items : [
+                            {
+                                xtype: 'label',
+                                style: 'font-weight:bold',
+                                text: 'Total Amount'
+                                
+                            }
+                    ]
+                },
+                {
+                xtype: 'tbfill',
+                flex:1
+                },
+                {
+                    xtype: 'tbfill',
+                    flex:1
+                },
+                {
+                   xtype: 'label',
+                   style: 'font-weight:bold',
+                   id: 'cartTotal',
+                   flex:1
+                }
+            ]
+        },
+    	{
+            xtype: 'toolbar',
+            dock: 'bottom',
+            layout: 'hbox',
+            items: [
+                {
+                    xtype : 'toolbar',
+                    itemId: 'bottomToolbar1',
+                    flex:2,
+                    items : [
+                            {
+                                xtype: 'label',
+                                style: 'font-weight:bold',
+                                text: 'Tax Amount'
+                                
+                            }
+                    ]
+                },
+                {
+                xtype: 'tbfill',
+                flex:1
+                },
+                {
+                    xtype: 'tbfill',
+                    flex:1
+                },
+                {
+                   xtype: 'label',
+                   style: 'font-weight:bold',
+                   id: 'cartTax',
+                   flex:1
+                }
+            ]
+        },
+    	{
+        xtype: 'toolbar',
+        dock: 'bottom',
         layout: 'hbox',
         items: [
             {
                 xtype : 'toolbar',
-                itemId: 'bottonToolbar',
+                itemId: 'bottomToolbar1',
                 flex:2,
                 items : [
                         {
                             xtype: 'label',
                             style: 'font-weight:bold',
-                            text: 'Total'
+                            text: 'Discount'
+                            
+                        }
+                ]
+            },
+            {
+            xtype: 'tbfill',
+            flex:1
+            },
+            {
+                xtype: 'tbfill',
+                flex:1
+            },
+            {
+               xtype: 'label',
+               style: 'font-weight:bold',
+               id: 'cartDiscount',
+               flex:1
+            }
+        ]
+    },
+	{
+        xtype: 'toolbar',
+        dock: 'bottom',
+        layout: 'hbox',
+        items: [
+            {
+                xtype : 'toolbar',
+                itemId: 'bottomToolbar',
+                flex:2,
+                items : [
+                        {
+                            xtype: 'label',
+                            style: 'font-weight:bold',
+                            text: 'Net Total'
                             
                         }
                 ]
@@ -105,5 +231,5 @@ Ext.define('NewExtApp.view.main.OrdertForm', {
             }
         ]
     }
-    
+   ]
 });

@@ -51,8 +51,10 @@ Ext.define('NewExtApp.controller.ProductViewController', {
 	    },
 	    
 	    onLogoutClick: function (sender, record) {
-	    	var customerparamstore = Ext.getStore('customerparamstores');
-	    	customerparamstore.removeAll();
+	    	localStorage.removeItem("cartId");
+        	localStorage.removeItem("customerId");
+        	localStorage.removeItem("loginStatus");
+        	localStorage.removeItem("userName");
             Ext.getCmp('loginForm').show();
             Ext.getCmp('loginForm').enable();
             Ext.getCmp('registrationForm').enable();
@@ -76,9 +78,7 @@ Ext.define('NewExtApp.controller.ProductViewController', {
 		    		Ext.Msg.prompt('Quantity', 'Please enter Quanity:', function(btn, qty) {
 	                if (btn == 'ok') {
 	                	
-	                	var customerparamstore = Ext.getStore('customerparamstores');
-	                	var record = customerparamstore.findRecord('loginStatus', true);
-	                	var cartId = record.get('cartId');
+	                	var cartId = localStorage.getItem('cartId');
 	                	
 	                	var orderModel = Ext.create('NewExtApp.model.Order');
 	                	orderModel.set('orderId',"");
@@ -90,6 +90,7 @@ Ext.define('NewExtApp.controller.ProductViewController', {
 	                	orderModel.set('cartId',cartId);
 	                	
 	                	orderstore.insert(0,orderModel);
+	                	orderstore.load();
 	                	
 	                	
 	                	Ext.Msg.alert(qty+' '+selected.data.productName+' have been added to cart');
