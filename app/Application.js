@@ -26,10 +26,12 @@ Ext.define('NewExtApp.Application', {
     	console.log(loginrecord);
     	if(loginrecord)
 		{
+    		Ext.getCmp('loginForm').disable();
 	    	Ext.getCmp('loginForm').hide();
-	        Ext.getCmp('loginForm').disable();
 	        Ext.getCmp('registrationForm').hide();
 	        Ext.getCmp('registrationForm').disable();
+	        Ext.getCmp('logout').show();
+            Ext.getCmp('logout').enable();
 	        Ext.getCmp('productList').show();
 	        Ext.getCmp('productList').enable();
 	        Ext.getCmp('cart').enable();
@@ -43,6 +45,8 @@ Ext.define('NewExtApp.Application', {
             Ext.getCmp('productList').disable();
             Ext.getCmp('cart').disable();
             Ext.getCmp('cart').hide();
+            Ext.getCmp('logout').hide();
+            Ext.getCmp('logout').disable();
 		}
     },
 

@@ -26,11 +26,13 @@ Ext.define('NewExtApp.controller.LoginViewController', {
                 	localStorage.setItem("customerId",resp.customerId);
                 	localStorage.setItem("loginStatus",resp.loginStatus);
                 	localStorage.setItem("userName",resp.userName);
-                    Ext.Msg.alert('Login successfull!');                    
+                    Ext.Msg.alert('Login successfull!');
                     Ext.getCmp('loginForm').hide();
                     Ext.getCmp('loginForm').disable();
                     Ext.getCmp('registrationForm').hide();
                     Ext.getCmp('registrationForm').disable();
+                    Ext.getCmp('logout').show();
+                    Ext.getCmp('logout').enable();
                     Ext.getCmp('productList').show();
                     Ext.getCmp('productList').enable();
                     Ext.getCmp('cart').enable();

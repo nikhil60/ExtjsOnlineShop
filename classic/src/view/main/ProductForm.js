@@ -33,26 +33,26 @@ Ext.define('NewExtApp.view.main.ProductForm', {
         store: '{productListStore}'
     },
     
-    plugins: [Ext.create('Ext.grid.plugin.RowEditing',
+    /*plugins: [Ext.create('Ext.grid.plugin.RowEditing',
             {
                 clicksToEdit: 2
-            })],
+            })],*/
             
     columns: [
         { text: 'Id',  dataIndex: 'productId',flex:1 },
-        { text: 'Name', dataIndex: 'productName', editor:
+        { text: 'Name', dataIndex: 'productName'/*, editor:
 	        {
 	            allowBlank: false
-	        },
+	        }*/,
 	        flex:3
         },
-        { text: 'Price', dataIndex: 'productPrice', editor:
+        { text: 'Price', dataIndex: 'productPrice'/*, editor:
         {
             allowBlank: false
-        },
+        }*/,
         flex:1}
     ],
-    tbar: [{
+    tbar: [/*{
         text: 'Add Product',
         iconCls: 'fa-plus',
         handler: 'onAddClick'
@@ -64,25 +64,18 @@ Ext.define('NewExtApp.view.main.ProductForm', {
         reference: 'btnRemoveProduct',
         handler: 'onRemoveClick',
         disabled: true
+    },*/
+	{
+            itemId: 'addtoCart',
+            text: 'Add to Cart',
+            iconCls: 'fa-times',
+            reference: 'btnAddtoCart',
+            handler: 'onAddtoCartClick',
+            disabled: true
     },
     {
         text: 'Refresh',
         iconCls: 'fa-plus',
         handler: 'onLoadClick'
-    },
-    {
-        itemId: 'addtoCart',
-        text: 'Add to Cart',
-        iconCls: 'fa-times',
-        reference: 'btnAddtoCart',
-        handler: 'onAddtoCartClick',
-        disabled: true
-    },
-    {
-        itemId: 'logout',
-        text: 'Logout',
-        iconCls: 'fa-times',
-        reference: 'btnLogout',
-        handler: 'onLogoutClick',
     }],
 });

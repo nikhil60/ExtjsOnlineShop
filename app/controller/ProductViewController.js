@@ -5,16 +5,16 @@ Ext.define('NewExtApp.controller.ProductViewController', {
     
 			
 	    onSelectionChange: function (sender, record, isSelected) {
-	        var removeBtn = this.lookupReference('btnRemoveProduct');
+	       // var removeBtn = this.lookupReference('btnRemoveProduct');
 	        var cartBtn = this.lookupReference('btnAddtoCart');
 	        if(record.length)
 	        {
-	            removeBtn.setDisabled(false);
+	         //   removeBtn.setDisabled(false);
 	            cartBtn.setDisabled(false);
 	        }
 	        else
         	{
-	            removeBtn.setDisabled(true);
+	           // removeBtn.setDisabled(true);
 	            cartBtn.setDisabled(true);
         	}
 	    },

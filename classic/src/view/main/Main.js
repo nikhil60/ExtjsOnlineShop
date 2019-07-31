@@ -78,7 +78,7 @@ Ext.define('NewExtApp.view.main.Main', {
     items: [
     	{
             title: 'Login Form',
-            iconCls: 'fa-users',
+            iconCls: 'fa-sign-in',
             id : 'loginForm',
             // The following grid shares a store with the classic version's grid as well!
             items: [{
@@ -116,13 +116,27 @@ Ext.define('NewExtApp.view.main.Main', {
         
     },
     {
+    	
+        title: 'Logout',
+        iconCls: 'fa-sign-out',
+        id:'logout',
+        tabConfig: {
+            handler : 'onLogoutClick',
+        },
+        // The following grid shares a store with the classic version's grid as well!
+        items: [{
+        	
+        }]
+        
+    },
+    {
     	hidden:true,
     	disabled :true,
         title: 'CustomerParam',
         id:'customerParam',
         // The following grid shares a store with the classic version's grid as well!
         items: [{
-            xtype: 'mainlist'
+            xtype: ''
         }]
         
     }]

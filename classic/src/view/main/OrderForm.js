@@ -86,13 +86,6 @@ Ext.define('NewExtApp.view.main.OrdertForm', {
         text: 'Refresh',
         iconCls: 'fa-plus',
         handler: 'onLoadClick'
-    },
-    {
-        itemId: 'logout',
-        text: 'Logout',
-        iconCls: 'fa-times',
-        reference: 'btnLogout',
-        handler: 'onLogoutClick',
     }],
     dockedItems: [
     	{
